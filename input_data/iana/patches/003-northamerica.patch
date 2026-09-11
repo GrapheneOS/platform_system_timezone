@@ -1,0 +1,17 @@
+diff --git i/northamerica w/northamerica
+index 5f3af122..d4e0a9ce 100644
+--- i/northamerica
++++ w/northamerica
+@@ -1986,10 +1986,8 @@ Rule	Edm	1972	2006	-	Oct	lastSun	2:00	0	S
+ Zone America/Edmonton	-7:33:52 -	LMT	1906 Sep
+ 			-7:00	Edm	M%sT	1987
+ 			-7:00	Canada	M%sT	2026 Jun 18
+-			# Temporary hack; see above.
+-			-7:00	1:00	MDT	2026 Nov  1  2:00
+-			# End of temporary hack.
+-			-6:00	-	CST
++			-7:00	1:00	MDT     2100 Mar  8
++			-7:00	1:00	MouT
+ 
+ 
+ # British Columbia

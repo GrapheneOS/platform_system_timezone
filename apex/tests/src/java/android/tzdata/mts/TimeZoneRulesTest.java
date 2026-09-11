@@ -297,6 +297,18 @@ public class TimeZoneRulesTest {
                 timeZoneId, TimeZoneNames.NameType.LONG_DAYLIGHT, summerTimeMillis));
     }
 
+    @Test
+    public void testCanada() {
+        TimeZone vancouver = TimeZone.getTimeZone("America/Vancouver");
+        TimeZone edmonton = TimeZone.getTimeZone("America/Edmonton");
+        assertTrue(vancouver.inDaylightTime(new Date(1777593600000L))); // 1 May 2026
+        assertTrue(edmonton.inDaylightTime(new Date(1777593600000L)));
+        // 1 Nov 2026 is when DST would've ended if DST was still in place in America/Vancouver.
+        // Checking that after that date America/Vancouver is still considered to be in DST.
+        assertTrue(vancouver.inDaylightTime(new Date(1796083200000L))); // 1 Dec 2026
+        assertTrue(edmonton.inDaylightTime(new Date(1796083200000L)));
+    }
+
     /**
      * ICU's time zone IDs may be a superset of IDs available via other APIs.
      */

@@ -1,0 +1,13 @@
+To model America/Vancouver as permanent DST in order for formatting APIs to show
+Pacific Daylight Time instead of Pacific Standard Time (which is wrong), Mountain
+Standard Time (technically right, confusing), or GMT-7 (even more technically
+right, but is also confusing).
+A distant future transition is needed to workaround a ZoneInfoData
+(actual implementation of java.util.TimeZone) bug. Its abbreviation is PacT:
+  * PDT can't be used as otherwise zic will drop it as it's identical to the
+    previous transition.
+  * Abbreviations are used in libc APIs only and for timestamps too far in the
+    future.
+  * All other APIs are backed by CLDR data and timestamps after 9 Mar 2026 will be
+    formatted as 'Pacific Daylight Time'.
+

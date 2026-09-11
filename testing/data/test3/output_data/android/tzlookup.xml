@@ -178,8 +178,8 @@
    <id>America/Dawson_Creek</id>
    <id notafter="84013200000" repl="America/Dawson_Creek">America/Creston</id>
    <id notafter="1425808800000" repl="America/Dawson_Creek">America/Fort_Nelson</id>
-   <id notafter="294228000000" repl="America/Edmonton">America/Inuvik</id>
-   <id notafter="986115600000" repl="America/Edmonton">America/Cambridge_Bay</id>
+   <id>America/Inuvik</id>
+   <id notafter="986115600000" repl="America/Inuvik">America/Cambridge_Bay</id>
    <id alts="Canada/Yukon">America/Whitehorse</id>
    <id notafter="120646800000" repl="America/Whitehorse">America/Dawson</id>
   </country>
