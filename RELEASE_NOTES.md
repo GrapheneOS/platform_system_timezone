@@ -1,3 +1,41 @@
+### 2026b rev. 2
+
+Fix the display name of `America/Vancouver`. Instead,
+`Pacific Daylight Time` is displayed after 1 Nov 2026, instead of
+`Mountain Standard Time`.
+
+In 2026b update `America/Vancouver` was moved into `Americ_Mountain`
+metazone. While it is technically correct, this might be confusing to
+users. Instead, there a way to patch IANA files.
+
+Due to a bug in Android's `java.util.TimeZone` implementation permanent
+DST time zones were not handled well, but in certain scenarios only: if
+the last transition happened before current system time. So IANA rules
+were patched and an extra distant future transition was added to
+`America/Vancouver`.
+
+Fix is in external/icu repo and commit's SHA is 600a228276321652135072038d3cd03e1ded5a10.
+
+### 2026b
+
+In `2026b` `America/Vancouver` moves to permanent GMT-7:00, which, under
+previous rules, was considered as daylight saving time. In TZDB it is
+modelled as standard time GMT-7:00. That breaks display name logic as
+`Pacific Standard Time` would be returned for a time zone which
+is GMT-07:00.
+
+Representing it as a permanent DST time zone with -8 hours standard offset
+and +1 hour DST offset won't work either as in that case
+`java.util.TimeZone.getDSTSavings()` will return 0, while `getRawOffset`
+will return 8 hours.
+
+Instead, `America/Vancouver` was moved into `America_Mountain`. Downside
+is that in various formatting APIs it will be shown as
+`Mountain Standard Time` and not `Pacific Daylight Time` or `Pacific Time`.
+This is not ideal, but technically true and there time zones in Canada
+which are attributed to `America_Mountain`.
+
+
 ### 2022a rev. 2
 
 TZDB 2022b introduces `Europe/Kyiv` and merges more time zones which were
@@ -129,4 +167,3 @@ requires changes in CLDR and `tzdb2021b` was announced late in CLDR's release
 cycle.
 
 Code changes were skipped as Android uses fixed version of tzcode, not ToT.
-

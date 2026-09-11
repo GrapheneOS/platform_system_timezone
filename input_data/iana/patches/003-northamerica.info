@@ -1,0 +1,7 @@
+America/Edmonton also moved to permanent DST. Modelling it
+in a similar to America/Vancouver fashion. To keep it in
+Mountain Time the last transition's abbreviation is
+newly invented MouT. It will be used for timestamps after
+the year 2100 only, so it's unlikely to ever be seen.
+
+See 002-northamerica.info.
