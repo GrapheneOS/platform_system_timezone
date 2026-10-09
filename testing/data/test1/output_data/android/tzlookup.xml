@@ -173,13 +173,13 @@
    <id alts="America/Coral_Harbour">America/Atikokan</id>
    <id alts="Canada/Saskatchewan">America/Regina</id>
    <id notafter="73472400000" repl="America/Regina">America/Swift_Current</id>
-   <id notafter="1130659200000" repl="America/Winnipeg">America/Rankin_Inlet</id>
-   <id notafter="1173600000000" repl="America/Winnipeg">America/Resolute</id>
+   <id>America/Rankin_Inlet</id>
+   <id notafter="1173600000000" repl="America/Rankin_Inlet">America/Resolute</id>
    <id>America/Dawson_Creek</id>
    <id notafter="84013200000" repl="America/Dawson_Creek">America/Creston</id>
    <id notafter="1425808800000" repl="America/Dawson_Creek">America/Fort_Nelson</id>
-   <id>America/Inuvik</id>
-   <id notafter="986115600000" repl="America/Inuvik">America/Cambridge_Bay</id>
+   <id notafter="294228000000" repl="America/Edmonton">America/Inuvik</id>
+   <id>America/Cambridge_Bay</id>
    <id alts="Canada/Yukon">America/Whitehorse</id>
    <id notafter="120646800000" repl="America/Whitehorse">America/Dawson</id>
   </country>

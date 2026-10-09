@@ -23,6 +23,8 @@ import android.icu.text.TimeZoneNames;
 
 import org.junit.Test;
 
+import java.text.SimpleDateFormat;
+import java.time.Instant;
 import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -299,14 +301,57 @@ public class TimeZoneRulesTest {
 
     @Test
     public void testCanada() {
-        TimeZone vancouver = TimeZone.getTimeZone("America/Vancouver");
-        TimeZone edmonton = TimeZone.getTimeZone("America/Edmonton");
-        assertTrue(vancouver.inDaylightTime(new Date(1777593600000L))); // 1 May 2026
-        assertTrue(edmonton.inDaylightTime(new Date(1777593600000L)));
-        // 1 Nov 2026 is when DST would've ended if DST was still in place in America/Vancouver.
-        // Checking that after that date America/Vancouver is still considered to be in DST.
-        assertTrue(vancouver.inDaylightTime(new Date(1796083200000L))); // 1 Dec 2026
-        assertTrue(edmonton.inDaylightTime(new Date(1796083200000L)));
+        for (String id : Arrays.asList("America/Vancouver", "Canada/Pacific")) {
+            assertPermanentDaylightTime(id, -8, "PDT", "Pacific Daylight Time");
+        }
+        for (String id : Arrays.asList("America/Edmonton", "Canada/Mountain")) {
+            assertPermanentDaylightTime(id, -7, "MDT", "Mountain Daylight Time");
+        }
+        assertPermanentDaylightTime("America/Inuvik", -7, "MDT", "Mountain Daylight Time");
+        for (String id : Arrays.asList("America/Winnipeg", "Canada/Central", "America/Rainy_River")) {
+            assertPermanentDaylightTime(id, -6, "CDT", "Central Daylight Time");
+        }
+    }
+
+    private static void assertPermanentDaylightTime(
+            String id, int rawOffsetHours, String shortName, String longName) {
+        int rawOffsetMillis = (int) TimeUnit.HOURS.toMillis(rawOffsetHours);
+        int dstOffsetMillis = (int) TimeUnit.HOURS.toMillis(1);
+        TimeZone javaTimeZone = TimeZone.getTimeZone(id);
+        android.icu.util.TimeZone icuTimeZone = android.icu.util.TimeZone.getTimeZone(id);
+        assertEquals(id, rawOffsetMillis, javaTimeZone.getRawOffset());
+        assertEquals(id, dstOffsetMillis, javaTimeZone.getDSTSavings());
+
+        SimpleDateFormat javaShortFormat = new SimpleDateFormat("z", Locale.US);
+        SimpleDateFormat javaLongFormat = new SimpleDateFormat("zzzz", Locale.US);
+        javaShortFormat.setTimeZone(javaTimeZone);
+        javaLongFormat.setTimeZone(javaTimeZone);
+        android.icu.text.SimpleDateFormat icuShortFormat =
+                new android.icu.text.SimpleDateFormat("z", Locale.US);
+        android.icu.text.SimpleDateFormat icuLongFormat =
+                new android.icu.text.SimpleDateFormat("zzzz", Locale.US);
+        icuShortFormat.setTimeZone(icuTimeZone);
+        icuLongFormat.setTimeZone(icuTimeZone);
+
+        // May preserves the existing summer checks. December and the following winter must
+        // remain in daylight time after the cancelled 1 November 2026 fallback.
+        for (String instant : Arrays.asList(
+                "2026-05-01T00:00:00Z", "2026-12-01T00:00:00Z", "2027-01-15T00:00:00Z")) {
+            Date date = Date.from(Instant.parse(instant));
+            String message = id + " at " + instant;
+            assertTrue(message, javaTimeZone.inDaylightTime(date));
+            assertTrue(message, icuTimeZone.inDaylightTime(date));
+            assertEquals(message, rawOffsetMillis + dstOffsetMillis,
+                    javaTimeZone.getOffset(date.getTime()));
+            int[] offsets = new int[2];
+            icuTimeZone.getOffset(date.getTime(), false /* local */, offsets);
+            assertEquals(message, rawOffsetMillis, offsets[0]);
+            assertEquals(message, dstOffsetMillis, offsets[1]);
+            assertEquals(message, shortName, javaShortFormat.format(date));
+            assertEquals(message, longName, javaLongFormat.format(date));
+            assertEquals(message, shortName, icuShortFormat.format(date));
+            assertEquals(message, longName, icuLongFormat.format(date));
+        }
     }
 
     /**

@@ -1,3 +1,37 @@
+### 2026e (GrapheneOS)
+
+As this is a GrapheneOS change for something that will very likely be added
+upstream later, the commit that added this entry is expected to be dropped.
+
+Upgrade directly from 2026c, including the cumulative 2026d and 2026e changes.
+The source archive is IANA's signed `tzdata2026e.tar.gz`.
+
+In 2026d, `America/Inuvik` moves to permanent UTC-6. In 2026e,
+`America/Winnipeg` moves to permanent UTC-5. Apply Android's existing Vancouver
+and Edmonton strategy to both zones: preserve their raw offsets and model the
+permanent offset as one hour of daylight saving time. Formatting APIs therefore
+retain Mountain Daylight Time for Inuvik and Central Daylight Time for Winnipeg.
+The refreshed Vancouver and Edmonton patches account for the temporary IANA
+workaround changes in 2026d.
+
+The Inuvik and Winnipeg patches retain the distant abbreviation transition used
+by the existing Android patches. In 2100, MDT changes to MouT and CDT changes to
+CenT without changing the UTC offset or DST state. See the patch explanation
+files in `input_data/iana/patches/`.
+
+2026d also restores independent POSIX compatibility zones for `CST6CDT`,
+`EST5EDT`, `MST7MDT`, and `PST8PDT`, and corrects historical transitions in
+Colombia and Iran. 2026e corrects Ireland's September 1925 transition. The CLDR,
+ICU, and libcore source changes include the corresponding metadata and tests.
+
+Run `system/timezone/update-tzdata.py` in an initialized Android build environment
+to regenerate the patched archive, ICU data, Android timezone outputs, version
+files, and test fixtures. The checked-in outputs contain 2026e data generated
+with the current Android 17 tooling. The compatibility version files for formats
+8 and 9 are updated separately because the script writes only the main format
+10 version file. All three formats declare IANA version 2026e; generated outputs
+from older branches must not be copied into this checkout.
+
 ### 2026b rev. 2
 
 Fix the display name of `America/Vancouver`. Instead,
