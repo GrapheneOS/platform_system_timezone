@@ -1,0 +1,14 @@
+America/Winnipeg moves to permanent UTC-5 on 31 October 2026. IANA 2026e models
+this as standard time after its temporary CLDR workaround ends in November.
+Represent it instead as UTC-6 plus one hour of permanent DST, keeping the
+America_Central metazone and Central Daylight Time display name. Linked zones,
+including Canada/Central and America/Rainy_River, inherit the same rules.
+
+Retain the distant abbreviation transition used for Vancouver and Edmonton:
+CDT changes to the invented CenT on 8 March 2100 without changing the UTC
+offset or DST state. This preserves compatibility with Android implementations
+that lack the ZoneInfoData permanent DST fix, even though this checkout already
+has that fix. libc can expose CenT for timestamps after that distant transition;
+Java and ICU formatting APIs continue to use CLDR's Central Daylight Time name.
+
+See 002-northamerica.info.

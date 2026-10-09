@@ -1,0 +1,16 @@
+diff --git i/northamerica w/northamerica
+--- i/northamerica
++++ w/northamerica
+@@ -1873,10 +1873,8 @@
+ Zone America/Winnipeg	-6:28:36 -	LMT	1887 Jul 16
+ 			-6:00	Winn	C%sT	2006
+ 			-6:00	Canada	C%sT	2026 Oct 31
+-			# Temporary hack; see above.
+-			-6:00	Canada	CDT	2026 Nov  1  2:00
+-			# End of temporary hack.
+-			-5:00	-	EST
++			-6:00	1:00	CDT	2100 Mar  8
++			-6:00	1:00	CenT
+ 
+ 
+ # Saskatchewan

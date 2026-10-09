@@ -1,0 +1,11 @@
+America/Inuvik moved to permanent UTC-6 on 21 August 2026. IANA 2026d models
+this as standard time after its temporary CLDR workaround ends in November.
+Represent it instead as UTC-7 plus one hour of permanent DST, keeping the
+America_Mountain metazone and Mountain Daylight Time display name.
+
+Retain the distant abbreviation transition used for America/Edmonton: MDT
+changes to MouT on 8 March 2100 without changing the UTC offset or DST state.
+This preserves compatibility with Android implementations that lack the
+ZoneInfoData permanent DST fix, even though this checkout already has that fix.
+
+See 002-northamerica.info and 003-northamerica.info.
