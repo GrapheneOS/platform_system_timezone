@@ -1,3 +1,9 @@
+### 2026f (GrapheneOS)
+
+Temporary GrapheneOS backport of tzdata 2026f for Cuba and historical Brazil
+corrections. These backport changes and this entry can be dropped when the
+upstream repositories include equivalent updates.
+
 ### 2026e (GrapheneOS)
 
 As this is a GrapheneOS change for something that will very likely be added
